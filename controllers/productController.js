@@ -6,6 +6,8 @@ const Op = Sequalize.Op;
 const Product = db.products;
 const Keyword = db.keywords;
 const KeywordMap = db.keywordsMap;
+const Images = db.images;
+const Brand = db.brand;
 // main work
 
 // 1. get all products
@@ -24,7 +26,7 @@ const getAllProducts = async (req, res) => {
 
 const getSingleProduct = async (req, res) => {
   let id = req.body.id;
-  let products = await Product.findOne({ where: { id: id } });
+  let products = await Product.findOne({ where: { id: id }, include:[{model:Images},{model:Brand}]});
   res.status(200).send({ data: products });
 };
 
