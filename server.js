@@ -1,17 +1,32 @@
 const express = require('express')
 const cors = require('cors')
-
 const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server,{cors: {origin: "*"}});
 
-var corOptions = {
-    origin: 'https://localhost:3001'
+// socket handlers
+
+const {all_keywords,product_by_keywords,dashboardDesignTest,all_category} = require('./socketHandlers/productSockets.js')(io)
+
+// socket handlers
+
+io.on('connection', (socket) => { 
+    socket.on('all_keywords',all_keywords),
+    socket.on('product_by_keywords',product_by_keywords),
+    socket.on('dashboardDesignTest',dashboardDesignTest),
+    socket.on('all_category',all_category)
+});
+// io.listen(5000);
+
+var corsOptions = {
+    origin: '*'
 }
 
 
 // middlewares
 app.use(express.static("public"))
 app.use(express.json())
-app.use(cors(corOptions))
+app.use(cors())
 app.use(express.urlencoded({extended:true}))
 
 // SETTING UP COMMON HELPER CLASS
@@ -35,11 +50,14 @@ app.get('/',(req,res)=> {
     res.send('WELCOME TO TEM Client ')
 })
 
+
 // port
-const PORT = process.env.port || 3000
+const PORT = process.env.port || 5000
 
 // server
 
-app.listen(PORT,() => {
-    console.log('TEM CLIENT CONSOLE IS RUNNING in '+ PORT)
-})
+// app.listen(PORT,() => {
+//     console.log('TEM CLIENT CONSOLE IS RUNNING in '+ PORT)
+// })
+
+server.listen(PORT);
