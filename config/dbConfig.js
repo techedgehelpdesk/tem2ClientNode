@@ -2,7 +2,7 @@ module.exports = {
     HOST:'localhost',
     USER:'root',
     PASSWORD:'',
-    DB:'tem2New',
+    DB:'tem_admin_db',
     dialset:'mysql',
 
     pool: {
