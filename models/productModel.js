@@ -33,10 +33,12 @@ module.exports = (sequelize, DataTypes) => {
     rating: {
       type: DataTypes.INTEGER,
     },
+    brand_id:{
+      type: DataTypes.INTEGER,
+    },
     keywords: {
       type: DataTypes.STRING,
     }
   });
-
   return Product;
 };
